@@ -10,21 +10,20 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour, ISaveable
 {
     public Transform playerTrans;
-    public Transform slimeTrans;
     public Vector3 firstPosition;
     public Vector3 menuPosition;
 
-    [Header("®∆•Û∫ ≈•")]
+    [Header("‰∫ã‰ª∂Áõ£ËÅΩ")]
     public SceneLoadEventSO loadEventSO;
     public VoidEventSO newGameEvent;
     public VoidEventSO sceneSaveEvent;
 
-    [Header("∞TÆß")]
+    [Header("Ë®äÊÅØ")]
     public VoidEventSO afterSceneLoadedEvent;
     public FadeEventSO fadeEvent;
     public SceneLoadEventSO unloadedSceneEvent;
 
-    [Header("≥ı¥∫")]
+    [Header("Â†¥ÊôØ")]
     public GameSceneSO firstLoadScene;
     public GameSceneSO menuScene;
     private GameSceneSO sceneToLoad;
@@ -95,17 +94,13 @@ public class SceneLoader : MonoBehaviour, ISaveable
             fadeEvent.FadeIn(fadeDuration);
         }
         sceneSaveEvent.RaiseEvent();
-        //Bailey.GetSaveData(Data data);
-        //EventHandler.CallBeforeSceneUnloadEvent();
         yield return new WaitForSeconds(fadeDuration);
 
         unloadedSceneEvent.RaiseLoadRequestEvent(sceneToLoad, positionToGo, true);
 
         yield return currentLoadedScene.sceneReference.UnLoadScene();
-        //EventHandler.CallAfterSceneUnloadEvent();
         //off player
         playerTrans.gameObject.SetActive(false);
-        slimeTrans.gameObject.SetActive(false);
         //Load new map
         LoadNewScene();
     }
@@ -122,8 +117,6 @@ public class SceneLoader : MonoBehaviour, ISaveable
 
         playerTrans.position = positionToGo;
         playerTrans.gameObject.SetActive(true);
-        slimeTrans.position = positionToGo;
-        slimeTrans.gameObject.SetActive(true);
         if (fadeScreen)
         {
             fadeEvent.FadeOut(fadeDuration);
@@ -131,7 +124,7 @@ public class SceneLoader : MonoBehaviour, ISaveable
         isLoading = false;
 
         if(currentLoadedScene.sceneType != SceneType.Menu)
-        //≥ı≥∫•[∏¸ßπ¶®®∆•Û
+        //Â†¥Á´üÂä†ËºâÂÆåÊàê‰∫ã‰ª∂
         afterSceneLoadedEvent.RaiseEvent();
     }
 
@@ -148,11 +141,9 @@ public class SceneLoader : MonoBehaviour, ISaveable
     public void LoadData(Data data)
     {
         var playerID = playerTrans.GetComponent<DataDefinition>().ID;
-        var slimeID = slimeTrans.GetComponent<DataDefinition>().ID;
-        if (data.characterPosDict.ContainsKey(playerID)|| data.characterPosDict.ContainsKey(slimeID))
+        if (data.characterPosDict.ContainsKey(playerID))
         {
             positionToGo = data.characterPosDict[playerID];
-            positionToGo = data.characterPosDict[slimeID];
             sceneToLoad = data.GetGameScene();
 
             OnLoadRequestEvent(sceneToLoad, positionToGo, true);
