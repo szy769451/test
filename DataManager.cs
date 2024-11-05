@@ -8,7 +8,7 @@ using static UnityEditor.Progress;
 public class DataManager : MonoBehaviour
 {
     public static DataManager Instance;
-    [Header("�ƥ��ť")]
+    [Header("¨Æ¥óºÊÅ¥")]
     public VoidEventSO saveDataEvent;
 
     private List<ISaveable> saveableList = new List<ISaveable>();
@@ -38,25 +38,34 @@ public class DataManager : MonoBehaviour
         //EventHandler.BeforeSceneUnloadEvent -= OnBeforeSceneUnloadEvent;
         //EventHandler.AfterSceneUnloadEvent -= OnAfterSceneUnloadEvent;
     }
-    private void Update()
+    //測試bug用
+    private void Update() //測試bug用
     {
         if (Keyboard.current.lKey.wasPressedThisFrame)
         {
-            Load();
+            OnObjectsLoad();
+            //Load();
         }
-    }
-    /*private void OnBeforeSceneUnloadEvent()
-    {
-        foreach (var Itme in FindAnyObjectByType<Itme>())
+        if (Keyboard.current.oKey.wasPressedThisFrame)
         {
-            saveable.GetSaveData(saveData);
+            OnObjectsSave();
+            //Save();
         }
     }
-
-    private void OnAfterSceneUnloadEvent()
+    
+    public void RegisterSceneSaveDate(IScene sceneS)
     {
-        throw new System.NotImplementedException();
-    }*/
+        if (!sceneSaveableList.Contains(sceneS))
+        {
+            sceneSaveableList.Add(sceneS);
+        }
+    }
+    
+    public void UnRegisterSceneSaveDate(IScene sceneS)
+    {
+        sceneSaveableList.Remove(sceneS);
+    }
+    
 
     public void RegisterSaveDate(ISaveable saveable)
     {
