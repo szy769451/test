@@ -6,7 +6,8 @@ public class Data
     public string sceneToSave;
     public Dictionary<string, Vector3> characterPosDict = new Dictionary<string, Vector3>();
     public Dictionary<string, float> floatSaveData = new Dictionary<string, float>();
-    public Dictionary<string, bool> deletedObjects = new Dictionary<string, bool>();
+    public SerializableDictionary<string, bool> deletedObjects = new SerializableDictionary<string, bool>();
+    
     public void SaveGameScene(GameSceneSO gameScene)
     {
         sceneToSave = JsonUtility.ToJson(gameScene);
