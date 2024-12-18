@@ -8,7 +8,7 @@ using static UnityEditor.Progress;
 public class DataManager : MonoBehaviour
 {
     public static DataManager Instance;
-    [Header("¨Æ¥óºÊÅ¥")]
+    [Header("事件監聽")]
     public VoidEventSO saveDataEvent;
 
     private List<ISaveable> saveableList = new List<ISaveable>();
@@ -51,6 +51,19 @@ public class DataManager : MonoBehaviour
             OnObjectsSave();
             //Save();
         }
+    }
+    
+    public void LoadButton(string newProfileId)
+    {
+        this.selectedProfileId = newProfileId;
+        InitializeSelectedProfileId();
+        Load();
+        OnObjectsLoad();
+    }
+    public void SaveButton()
+    {
+        Save();
+        OnObjectsSave();
     }
     
     public void RegisterSceneSaveDate(IScene sceneS)
