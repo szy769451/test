@@ -38,7 +38,6 @@ public class DataManager : MonoBehaviour
         //EventHandler.BeforeSceneUnloadEvent -= OnBeforeSceneUnloadEvent;
         //EventHandler.AfterSceneUnloadEvent -= OnAfterSceneUnloadEvent;
     }
-    //測試bug用
     private void Update() //測試bug用
     {
         if (Keyboard.current.lKey.wasPressedThisFrame)
@@ -56,7 +55,6 @@ public class DataManager : MonoBehaviour
     public void LoadButton(string newProfileId)
     {
         this.selectedProfileId = newProfileId;
-        InitializeSelectedProfileId();
         Load();
         OnObjectsLoad();
     }
@@ -101,7 +99,6 @@ public class DataManager : MonoBehaviour
         foreach (var item in saveData.characterPosDict)
         {
             Debug.Log(item.Key +"   "+ item.Value);
-            //saveable.GetSaveData(saveData);
         }
     }
     public void Load()
@@ -111,4 +108,26 @@ public class DataManager : MonoBehaviour
             saveable.LoadData(saveData);
         }
     }
+    public void OnObjectsSave()
+{
+    foreach (var sceneS in sceneSaveableList)
+    {
+        sceneS.sceneSaveData(saveData);
+    }
+    foreach (var item in saveData.closedObjects)
+    {
+        Debug.Log(item.Key + "   " + item.Value);
+    }
+}
+public void OnObjectsLoad()
+{
+    foreach (var sceneS in sceneSaveableList)
+    {
+        sceneS.sceneLoadData(saveData);
+    }
+    foreach (var item in saveData.closedObjects)
+    {
+        Debug.Log(item.Key + "   " + item.Value);
+    }
+}
 }
